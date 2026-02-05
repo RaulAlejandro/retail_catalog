@@ -1,0 +1,25 @@
+<div class="wrapper d-flex flex-column flex-row-fluid">
+  <div class="content d-flex flex-column flex-column-fluid pt-10">
+    <div class="container-xxl">
+      <div class="row g-7">
+        <!-- Sidebar de Filtros -->
+        <div class="col-lg-3">
+          <%= render "products/filters" %>
+        </div>
+
+        <!-- Grid de Productos -->
+        <div class="col-lg-9">
+          <%= render "products/toolbar" %>
+
+          <%= turbo_frame_tag "products_grid", class: "row g-5 g-xl-8" do %>
+            <%= render partial: "products/product_card", collection: @products, as: :product %>
+
+            <div class="col-12">
+              <%= paginate @products %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="card card-flush">
+  <div class="card-header pt-7">
+    <h3 class="card-title fw-bold">Filtros</h3>
+  </div>
+
+  <div class="card-body pt-0" data-controller="filters">
+    <%= form_with url: products_path, method: :get,
+                  data: {
+                    filters_target: "form",
+                    turbo_frame: "products_grid",
+                    turbo_action: "advance"
+                  } do |f| %>
+
+      <!-- Categorías -->
+      <div class="mb-7">
+        <h5 class="fw-bold mb-4">Categorías</h5>
+        <div class="form-check mb-3">
+          <%= f.radio_button :category, "",
+              checked: params[:category].blank?,
+              class: "form-check-input",
+              data: { action: "change->filters#submit" } %>
+          <%= f.label "category_all", "Todas", class: "form-check-label" %>
+        </div>
+        <% @categories.each do |category| %>
+          <div class="form-check mb-3">
+            <%= f.radio_button :category, category,
+                checked: params[:category] == category,
+                class: "form-check-input",
+                data: { action: "change->filters#submit" } %>
+            <%= f.label "category_#{category.parameterize}", category, class: "form-check-label" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Marcas -->
+      <div class="mb-7">
+        <h5 class="fw-bold mb-4">Marcas</h5>
+        <div class="form-check mb-3">
+          <%= f.radio_button :brand, "",
+              checked: params[:brand].blank?,
+              class: "form-check-input",
+              data: { action: "change->filters#submit" } %>
+          <%= f.label "brand_all", "Todas", class: "form-check-label" %>
+        </div>
+        <% @brands.each do |brand| %>
+          <div class="form-check mb-3">
+            <%= f.radio_button :brand, brand,
+                checked: params[:brand] == brand,
+                class: "form-check-input",
+                data: { action: "change->filters#submit" } %>
+            <%= f.label "brand_#{brand.parameterize}", brand, class: "form-check-label" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Rango de Precio -->
+      <div class="mb-7">
+        <h5 class="fw-bold mb-4">Precio</h5>
+        <div class="form-check mb-3">
+          <%= f.radio_button :price_range, "",
+              checked: params[:price_range].blank?,
+              class: "form-check-input",
+              data: { action: "change->filters#submit" } %>
+          <%= f.label "price_range_all", "Todos", class: "form-check-label" %>
+        </div>
+        <% @price_ranges.each do |range| %>
+          <div class="form-check mb-3">
+            <%= f.radio_button :price_range,
+                "#{range[:min]}-#{range[:max]}",
+                checked: params[:price_range] == "#{range[:min]}-#{range[:max]}",
+                class: "form-check-input",
+                data: {
+                  action: "change->filters#submit",
+                  min_price: range[:min],
+                  max_price: range[:max]
+                } %>
+            <%= f.label "price_range_#{range[:min]}_#{range[:max]}",
+                range[:label], class: "form-check-label" %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= f.hidden_field :min_price, value: params[:min_price] %>
+      <%= f.hidden_field :max_price, value: params[:max_price] %>
+
+      <!-- En Stock -->
+      <div class="mb-7">
+        <div class="form-check">
+          <%= f.check_box :in_stock_only,
+              { class: "form-check-input", data: { action: "change->filters#submit" } },
+              "1", "0" %>
+          <%= f.label :in_stock_only, "Solo en stock", class: "form-check-label" %>
+        </div>
+      </div>
+
+      <%= link_to "Limpiar filtros", products_path,
+          class: "btn btn-light w-100",
+          data: { turbo_frame: "products_grid" } %>
+    <% end %>
+  </div>
+</div>

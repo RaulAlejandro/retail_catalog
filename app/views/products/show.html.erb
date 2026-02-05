@@ -1,0 +1,88 @@
+<div class="wrapper d-flex flex-column flex-row-fluid">
+  <div class="content d-flex flex-column flex-column-fluid pt-10">
+    <div class="container-xxl">
+      <div class="row g-7">
+        <div class="col-lg-6">
+          <div class="card card-flush">
+            <div class="card-body p-0">
+              <%= image_tag @product.image_url || "placeholder.png",
+                  class: "w-100",
+                  style: "max-height: 500px; object-fit: cover;",
+                  alt: @product.name %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card card-flush">
+            <div class="card-body">
+              <div class="mb-5">
+                <span class="badge badge-light-primary fs-7 fw-bold mb-3">
+                  <%= @product.category %>
+                </span>
+                <h1 class="fw-bolder text-gray-900 mb-3"><%= @product.name %></h1>
+                <div class="text-muted fs-5 mb-5">
+                  Marca: <%= @product.brand %>
+                </div>
+              </div>
+
+              <div class="mb-7">
+                <div class="d-flex align-items-center mb-3">
+                  <% if @product.has_discount? %>
+                    <div class="text-muted text-decoration-line-through fs-3 me-3">
+                      <%= @product.formatted_old_price %>
+                    </div>
+                    <span class="badge badge-danger fs-6">
+                      -<%= @product.discount_percentage %>%
+                    </span>
+                  <% end %>
+                </div>
+                <div class="fs-1 fw-bold text-primary mb-3">
+                  <%= @product.formatted_price %>
+                </div>
+              </div>
+
+              <div class="mb-7">
+                <h5 class="fw-bold mb-3">Descripción</h5>
+                <p class="text-gray-600 fs-6"><%= @product.description %></p>
+              </div>
+
+              <div class="mb-7">
+                <h5 class="fw-bold mb-3">Disponibilidad</h5>
+                <% if @product.in_stock? %>
+                  <span class="badge badge-light-success fs-6">
+                    En stock (<%= @product.stock %> disponibles)
+                  </span>
+                <% else %>
+                  <span class="badge badge-light-danger fs-6">Agotado</span>
+                <% end %>
+              </div>
+
+              <% if @product.tags.present? %>
+                <div class="mb-7">
+                  <h5 class="fw-bold mb-3">Etiquetas</h5>
+                  <% @product.tags.each do |tag| %>
+                    <span class="badge badge-light-info me-2"><%= tag %></span>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <div class="d-flex gap-3">
+                <%= link_to "Volver al catálogo", products_path, class: "btn btn-light flex-grow-1" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if @related_products.any? %>
+        <div class="row mt-10">
+          <div class="col-12">
+            <h2 class="fw-bold mb-7">Productos relacionados</h2>
+          </div>
+          <%= render partial: "products/product_card", collection: @related_products, as: :product %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

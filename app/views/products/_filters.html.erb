@@ -82,6 +82,7 @@
 
       <%= f.hidden_field :min_price, value: params[:min_price] %>
       <%= f.hidden_field :max_price, value: params[:max_price] %>
+      <%= f.hidden_field :sort_by, value: params[:sort_by] %>
 
       <!-- En Stock -->
       <div class="mb-7">
@@ -95,7 +96,7 @@
 
       <%= link_to "Limpiar filtros", products_path,
           class: "btn btn-light w-100",
-          data: { turbo_frame: "products_grid" } %>
+          data: { turbo_frame: "products_grid", turbo_prefetch: false } %>
     <% end %>
   </div>
 </div>

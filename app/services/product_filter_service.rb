@@ -58,6 +58,8 @@ class ProductFilterService
       products.price_low_to_high
     when 'price_desc'
       products.price_high_to_low
+    when 'newest'
+      products.newest_first
     else
       products.newest_first
     end

@@ -68,7 +68,7 @@
               <% end %>
 
               <div class="d-flex gap-3">
-                <%= link_to "Volver al catálogo", products_path, class: "btn btn-light flex-grow-1" %>
+                <%= link_to "Volver al catálogo", products_path, class: "btn btn-light flex-grow-1", data: { turbo_prefetch: false } %>
               </div>
             </div>
           </div>

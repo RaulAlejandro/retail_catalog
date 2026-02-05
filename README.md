@@ -150,15 +150,6 @@ rails s
 
 El servidor estará disponible en: **http://localhost:3000**
 
-### Datos de Prueba
-
-El archivo `db/seeds.rb` incluye **24 productos** distribuidos en:
-- **Calzado**: Zapatillas, botas, sandalias
-- **Ropa**: Camisetas, jeans, chaquetas
-- **Electrónica**: Laptops, auriculares, smartphones
-- **Hogar**: Muebles, decoración
-- **Accesorios**: Relojes, bolsos, cinturones
-
 ---
 
 ## Solución de Problemas

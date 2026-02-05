@@ -36,7 +36,12 @@
 
     <div class="flex-shrink-0">
       <%= form_with url: products_path, method: :get,
-          data: { turbo_frame: "products_grid", turbo_action: "advance" } do |f| %>
+          data: {
+            controller: "filters",
+            filters_target: "form",
+            turbo_frame: "products_grid",
+            turbo_action: "advance"
+          } do |f| %>
 
         <%= f.select :sort_by,
             options_for_select([

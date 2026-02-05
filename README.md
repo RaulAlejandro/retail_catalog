@@ -1,170 +1,289 @@
 # Catálogo de Productos Retail
 
-Sistema de catálogo de productos e-commerce con búsqueda, filtros y ordenamiento.
+Sistema de catálogo de productos e-commerce con búsqueda avanzada, filtros dinámicos y ordenamiento. Desarrollado con Ruby on Rails 8 y Hotwire.
 
-## Requisitos
-- Ruby 3.4.0
-- PostgreSQL 12+
-- Rails 8.0.4
 
-## Instalación
+## Requisitos del Sistema
 
-1. Clonar repositorio
+Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 
-2. Instalar dependencias:
-   ```bash
-   bundle install
-   ```
+**Ruby** 3.4.0 Instalar Ruby (https://www.ruby-lang.org/es/documentation/installation/)
+**Rails** 8.0.4 Se instala con `gem install rails` (ver paso abajo)
+**PostgreSQL** 12+ Instalar PostgreSQL (https://www.postgresql.org/download)
 
-3. Configurar base de datos:
-   - Actualizar `config/database.yml` con las credenciales de PostgreSQL
-   - Crear y configurar base de datos:
-   ```bash
-   rails db:create
-   rails db:migrate
-   rails db:seed
-   ```
 
-4. Iniciar servidor:
-   ```bash
-   rails server
-   ```
+### Instalación de Ruby (si no lo tienes)
 
-5. Visitar http://localhost:3000
+Se recomienda usar un gestor de versiones de Ruby. Elige una opción:
 
-## Funcionalidades
+**Opción A: rbenv (recomendado)**
+```bash
+# Instalar rbenv (Ubuntu/Debian)
+sudo apt-get install -y rbenv ruby-build
 
-- ✅ Listado paginado de productos (grid de tarjetas)
-- ✅ Búsqueda full-text por nombre/descripción
-- ✅ Filtros por categoría, marca, precio, stock
-- ✅ Ordenamiento (precio, fecha)
-- ✅ Detalle de producto con productos relacionados
-- ✅ UI responsive con Metronic template
-- ✅ Interactividad dinámica con Hotwire (Turbo + Stimulus)
+# Instalar rbenv (macOS)
+brew install rbenv ruby-build
 
-## Stack Técnico
-
-- **Backend:** Ruby on Rails 8.0.4
-- **Database:** PostgreSQL (búsqueda full-text nativa con tsvector)
-- **Frontend:** Hotwire (Turbo + Stimulus)
-- **UI Template:** Metronic (demo20)
-- **Assets:** Propshaft + Importmap
-- **Pagination:** Kaminari
-- **Search:** pg_search
-
-## Estructura del Proyecto
-
+# Instalar Ruby 3.4.0
+rbenv install 3.4.0
+rbenv global 3.4.0
 ```
-app/
-├── models/
-│   └── product.rb           # Modelo de producto con validaciones y scopes
-├── controllers/
-│   ├── products_controller.rb  # Catálogo y detalle de productos
-│   └── home_controller.rb      # Página de inicio
-├── services/
-│   └── product_filter_service.rb  # Lógica de filtrado de productos
-├── views/
-│   ├── products/
-│   │   ├── index.html.erb       # Grid de productos
-│   │   ├── show.html.erb        # Detalle de producto
-│   │   ├── _filters.html.erb    # Sidebar de filtros
-│   │   ├── _toolbar.html.erb    # Búsqueda y ordenamiento
-│   │   └── _product_card.html.erb  # Tarjeta de producto
-│   ├── home/
-│   │   └── index.html.erb       # Página de inicio
-│   └── shared/
-│       ├── _header.html.erb     # Header de navegación
-│       └── _footer.html.erb     # Footer
-└── javascript/
-    └── controllers/
-        ├── filters_controller.js   # Stimulus controller para filtros
-        └── search_controller.js    # Stimulus controller para búsqueda
+Guía completa: https://github.com/rbenv/rbenv#installation
 
-db/
-├── migrate/
-│   ├── XXX_create_products.rb        # Tabla de productos
-│   └── XXX_add_search_to_products.rb # Búsqueda full-text
-└── seeds.rb                          # Datos de prueba
+**Opción B: RVM**
+```bash
+# Instalar RVM
+\curl -sSL https://get.rvm.io | bash -s stable
+
+# Instalar Ruby 3.4.0
+rvm install 3.4.0
+rvm use 3.4.0 --default
+```
+Guía completa: https://rvm.io/rvm/install
+
+### Instalación de Rails (si no lo tienes)
+
+Una vez instalado Ruby, instalar Rails es un solo comando:
+```bash
+gem install rails -v 8.0.4
 ```
 
-## Características de la Base de Datos
+### Instalación de PostgreSQL (si no lo tienes)
 
-### Tabla Products
+**Ubuntu/Debian:**
+```bash
+sudo apt-get update
+sudo apt-get install -y postgresql postgresql-contrib libpq-dev
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
 
-- `product_id`: ID externo único (e.g., "p-001")
-- `name`: Nombre del producto
-- `description`: Descripción detallada
-- `category`: Categoría del producto
-- `brand`: Marca
-- `price`: Precio actual
-- `old_price`: Precio anterior (para mostrar descuentos)
-- `stock`: Cantidad disponible
-- `tags`: Array de etiquetas (JSON)
-- `image_url`: URL de la imagen
-- `active`: Estado activo/inactivo
-- `search_vector`: Vector de búsqueda full-text (tsvector)
+**macOS (Homebrew):**
+```bash
+brew install postgresql@16
+brew services start postgresql@16
+```
 
-### Índices
+---
 
-- Índice único en `product_id`
-- Índices en `name`, `category`, `brand`, `price`
-- Índice compuesto en `[active, created_at]`
-- Índice GIN en `search_vector` para búsqueda full-text
+## Instalación Paso a Paso
 
-### Búsqueda Full-Text
-
-PostgreSQL trigger que actualiza automáticamente el `search_vector` cuando se crea o actualiza un producto, permitiendo búsquedas rápidas y relevantes.
-
-## Testing
+### 1. Clonar el repositorio
 
 ```bash
-rails test
+git clone https://github.com/RaulAlejandro/retail_catalog.git
+cd retail_catalog
 ```
 
-## Datos de Prueba
+### 2. Instalar dependencias de Ruby
 
-El archivo `db/seeds.rb` incluye 10 productos de ejemplo en diferentes categorías:
-- Calzado
-- Ropa
-- Electrónica
-- Hogar
-- Accesorios
+```bash
+bundle install
+```
 
-Para recargar los datos:
+Si encuentras problemas con la gema `pg`, asegúrate de tener PostgreSQL instalado:
+
+**En Ubuntu/Debian:**
+```bash
+sudo apt-get install libpq-dev
+```
+
+**En macOS:**
+```bash
+brew install postgresql
+```
+
+### 3. Instalar dependencias de JavaScript
+
+```bash
+rails importmap:install
+```
+
+---
+
+## Configuración de Base de Datos
+
+edita el archivo `config/database.yml`:
+
+```yaml
+development:
+  <<: *default
+  database: retail_catalog_development
+  host: localhost
+  username: TU_USUARIO
+  password: TU_PASSWORD
+```
+
+### Crear y configurar la base de datos
+
+```bash
+# Crear la base de datos
+rails db:create
+
+# Ejecutar las migraciones
+rails db:migrate
+
+# Cargar datos de prueba (24 productos de ejemplo)
+rails db:seed
+```
+
+**Resultado esperado:**
+- Base de datos `retail_catalog_development` creada
+- 4 migraciones ejecutadas exitosamente
+- 24 productos de prueba insertados en 5 categorías
+
+---
+
+## Ejecución del Proyecto
+
+### Iniciar el servidor de desarrollo
+
+```bash
+rails server
+```
+
+o abreviado:
+
+```bash
+rails s
+```
+
+El servidor estará disponible en: **http://localhost:3000**
+
+### Datos de Prueba
+
+El archivo `db/seeds.rb` incluye **24 productos** distribuidos en:
+- **Calzado**: Zapatillas, botas, sandalias
+- **Ropa**: Camisetas, jeans, chaquetas
+- **Electrónica**: Laptops, auriculares, smartphones
+- **Hogar**: Muebles, decoración
+- **Accesorios**: Relojes, bolsos, cinturones
+
+---
+
+## Solución de Problemas
+
+### Error: "PG::ConnectionBad"
+
+**Causa**: PostgreSQL no está corriendo o las credenciales son incorrectas.
+
+**Solución**:
+```bash
+# Verificar que PostgreSQL esté corriendo
+sudo systemctl status postgresql
+
+# Iniciar PostgreSQL si está detenido
+sudo systemctl start postgresql
+
+# Verificar credenciales en config/database.yml
+```
+
+### Error: "ActiveRecord::NoDatabaseError"
+
+**Causa**: La base de datos no ha sido creada.
+
+**Solución**:
+```bash
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+### Error: "Bundler::GemNotFound"
+
+**Causa**: Falta instalar las gemas.
+
+**Solución**:
+```bash
+bundle install
+```
+
+### Error: "LoadError: cannot load such file -- pg"
+
+**Causa**: Falta la biblioteca de desarrollo de PostgreSQL.
+
+**Solución en Ubuntu/Debian**:
+```bash
+sudo apt-get install libpq-dev
+bundle install
+```
+
+### Error: "ImportMap::MissingAssetError"
+
+**Causa**: Assets de JavaScript no configurados.
+
+**Solución**:
+```bash
+rails importmap:install
+```
+
+### La paginación o búsqueda no funciona
+
+**Causa**: JavaScript no está cargando correctamente.
+
+**Solución**:
+1. Verificar que importmap esté instalado
+2. Revisar la consola del navegador en busca de errores
+3. Reiniciar el servidor Rails
+
+### Los productos no aparecen
+
+**Causa**: No se ejecutó `db:seed`.
+
+**Solución**:
 ```bash
 rails db:seed
 ```
 
+---
+
 ## Escalabilidad
 
-Para escalar con mayor volumen de productos:
+### Para escalar con mayor volumen de productos (>100K):
 
-1. **Base de Datos:**
-   - Migrar a Elasticsearch para búsqueda (>1M productos)
-   - Implementar read replicas
-   - Particionar tabla products por categoría
+#### 1. Base de Datos
+- **Elasticsearch** para búsqueda avanzada
+- **Read replicas** de PostgreSQL
+- **Particionamiento** de tabla products por categoría o fecha
+- **Connection pooling** con PgBouncer
 
-2. **Caché:**
-   - Fragment caching en product cards
-   - Redis para caché de queries
-   - CDN para imágenes
+#### 2. Caché
+- **Redis** para caché de queries y sesiones
+- **Fragment caching** en product cards
+- **CDN** para imágenes estáticas (Cloudflare, CloudFront)
 
-3. **Performance:**
-   - Background jobs para actualizaciones
-   - Eager loading consistente
-   - Índices compuestos adicionales
+#### 3. Performance
+- **Background jobs** con Sidekiq para operaciones pesadas
+- **Eager loading** consistente (includes, preload)
+- **Índices compuestos** adicionales según patrones de uso
+- **Database query optimization** con EXPLAIN ANALYZE
 
-4. **Infraestructura:**
-   - Horizontal scaling con load balancer
-   - Assets en CDN
-   - Database connection pooling
+#### 4. Infraestructura
+- **Load balancer** (Nginx, HAProxy)
+- **Horizontal scaling** de app servers
+- **Assets precompilados** en CDN
+- **Monitoring** con New Relic o Datadog
 
-## Desarrollo
+---
 
-Este proyecto fue implementado siguiendo las mejores prácticas de Rails 8:
-- Service Objects para lógica de negocio compleja
-- Scopes en modelos para queries reutilizables
-- Hotwire para interactividad sin JavaScript custom
-- Stimulus controllers mínimos y enfocados
-- Propshaft para assets modernos
-- PostgreSQL nativo para búsqueda full-text
+## Decisiones Técnicas
+
+### Service Objects
+Encapsulan lógica de negocio compleja (ej: `ProductFilterService`) para mantener los controladores delgados.
+
+### Scopes en Modelos
+Queries reutilizables y componibles para mantener el modelo como fuente única de verdad.
+
+### Hotwire sobre JavaScript
+Interactividad SPA sin complejidad de frameworks frontend, aprovechando el poder de Rails.
+
+### PostgreSQL Full-Text Search
+Búsqueda nativa sin dependencias externas, suficiente hasta ~500K registros.
+
+### Turbo Frames
+Actualizaciones parciales de página para mejor UX sin escribir JavaScript.
+
+### Stimulus Controllers
+JavaScript mínimo y enfocado, solo donde se necesita interactividad adicional.
+
+---

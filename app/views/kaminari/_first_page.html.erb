@@ -10,6 +10,6 @@
   <% if current_page.first? %>
     <span class="page-link">Primera</span>
   <% else %>
-    <%= link_to 'Primera', url, class: 'page-link', remote: remote, data: { turbo_frame: 'products_grid' } %>
+    <%= link_to 'Primera', url, class: 'page-link', remote: remote, data: { turbo_frame: 'products_grid', turbo_prefetch: false } %>
   <% end %>
 </li>

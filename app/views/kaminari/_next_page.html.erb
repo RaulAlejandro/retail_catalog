@@ -10,7 +10,7 @@
   <% if current_page.last? %>
     <span class="page-link"><i class="next"></i></span>
   <% else %>
-    <%= link_to url, class: 'page-link', rel: 'next', remote: remote, data: { turbo_frame: 'products_grid' } do %>
+    <%= link_to url, class: 'page-link', rel: 'next', remote: remote, data: { turbo_frame: 'products_grid', turbo_prefetch: false } do %>
       <i class="next"></i>
     <% end %>
   <% end %>

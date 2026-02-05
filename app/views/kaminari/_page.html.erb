@@ -11,6 +11,6 @@
   <% if page.current? %>
     <span class="page-link"><%= page %></span>
   <% else %>
-    <%= link_to page, url, class: 'page-link', remote: remote, rel: page.rel, data: { turbo_frame: 'products_grid' } %>
+    <%= link_to page, url, class: 'page-link', remote: remote, rel: page.rel, data: { turbo_frame: 'products_grid', turbo_prefetch: false } %>
   <% end %>
 </li>

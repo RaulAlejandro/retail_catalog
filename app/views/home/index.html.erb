@@ -6,7 +6,7 @@
         <div class="card-body text-center py-20" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
           <h1 class="text-white fw-bolder mb-4" style="font-size: 3rem;">Bienvenido a Catálogo Retail</h1>
           <p class="text-white fs-4 mb-7">Encuentra los mejores productos al mejor precio</p>
-          <%= link_to "Ver todos los productos", products_path, class: "btn btn-lg btn-light" %>
+          <%= link_to "Ver todos los productos", products_path, class: "btn btn-lg btn-light", data: { turbo_prefetch: false } %>
         </div>
       </div>
 
@@ -16,7 +16,7 @@
         <div class="row g-5">
           <% @categories.each do |category| %>
             <div class="col-md-6 col-lg-3">
-              <%= link_to products_path(category: category), class: "text-decoration-none" do %>
+              <%= link_to products_path(category: category), class: "text-decoration-none", data: { turbo_prefetch: false } do %>
                 <div class="card card-flush h-100 hover-elevate-up">
                   <div class="card-body text-center p-9">
                     <i class="bi bi-tag fs-2x text-primary mb-4"></i>
@@ -34,7 +34,7 @@
         <div class="mb-10">
           <div class="d-flex justify-content-between align-items-center mb-7">
             <h2 class="fw-bold mb-0">Productos Destacados</h2>
-            <%= link_to "Ver todos", products_path, class: "btn btn-sm btn-light-primary" %>
+            <%= link_to "Ver todos", products_path, class: "btn btn-sm btn-light-primary", data: { turbo_prefetch: false } %>
           </div>
           <div class="row g-5 g-xl-8">
             <%= render partial: "products/product_card", collection: @featured_products, as: :product %>
@@ -42,18 +42,6 @@
         </div>
       <% end %>
 
-      <!-- Nuevos Productos -->
-      <% if @new_arrivals.any? %>
-        <div class="mb-10">
-          <div class="d-flex justify-content-between align-items-center mb-7">
-            <h2 class="fw-bold mb-0">Recién Llegados</h2>
-            <%= link_to "Ver todos", products_path(sort_by: 'newest'), class: "btn btn-sm btn-light-primary" %>
-          </div>
-          <div class="row g-5 g-xl-8">
-            <%= render partial: "products/product_card", collection: @new_arrivals, as: :product %>
-          </div>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>

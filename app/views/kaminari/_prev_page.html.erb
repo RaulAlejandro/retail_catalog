@@ -10,7 +10,7 @@
   <% if current_page.first? %>
     <span class="page-link"><i class="previous"></i></span>
   <% else %>
-    <%= link_to url, class: 'page-link', rel: 'prev', remote: remote, data: { turbo_frame: 'products_grid' } do %>
+    <%= link_to url, class: 'page-link', rel: 'prev', remote: remote, data: { turbo_frame: 'products_grid', turbo_prefetch: false } do %>
       <i class="previous"></i>
     <% end %>
   <% end %>

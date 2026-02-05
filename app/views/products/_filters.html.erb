@@ -96,7 +96,7 @@
 
       <%= link_to "Limpiar filtros", products_path,
           class: "btn btn-light w-100",
-          data: { turbo_frame: "products_grid" } %>
+          data: { turbo_frame: "products_grid", turbo_prefetch: false } %>
     <% end %>
   </div>
 </div>

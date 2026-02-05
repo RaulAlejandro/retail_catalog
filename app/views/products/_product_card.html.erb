@@ -1,6 +1,6 @@
 <div class="col-md-6 col-xl-4">
   <div class="card card-flush h-100">
-    <%= link_to product_path(product), data: { turbo_frame: "_top" }, class: "card-img-top position-relative d-block" do %>
+    <%= link_to product_path(product), data: { turbo_frame: "_top", turbo_prefetch: false }, class: "card-img-top position-relative d-block" do %>
       <%= image_tag product.image_url || "placeholder.png",
           class: "w-100",
           style: "height: 250px; object-fit: cover;",
@@ -22,7 +22,7 @@
 
       <h4 class="fw-bold text-gray-800 mb-3">
         <%= link_to product.name, product_path(product),
-            data: { turbo_frame: "_top" },
+            data: { turbo_frame: "_top", turbo_prefetch: false },
             class: "text-gray-800 text-hover-primary text-decoration-none" %>
       </h4>
 
@@ -48,7 +48,7 @@
 
         <% if product.in_stock? %>
           <%= link_to "Ver detalles", product_path(product),
-              data: { turbo_frame: "_top" },
+              data: { turbo_frame: "_top", turbo_prefetch: false },
               class: "btn btn-primary btn-sm" %>
         <% else %>
           <span class="badge badge-light-danger">Agotado</span>

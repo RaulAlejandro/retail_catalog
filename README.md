@@ -247,7 +247,6 @@ rails db:seed
 - **Background jobs** con Sidekiq para operaciones pesadas
 - **Eager loading** consistente (includes, preload)
 - **Índices compuestos** adicionales según patrones de uso
-- **Database query optimization** con EXPLAIN ANALYZE
 
 #### 4. Infraestructura
 - **Load balancer** (Nginx, HAProxy)

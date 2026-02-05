@@ -1,0 +1,32 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+/* Custom styles for retail catalog */
+.hover-elevate-up {
+  transition: all 0.3s ease;
+}
+
+.hover-elevate-up:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075);
+}
+
+.wrapper {
+  min-height: calc(100vh - 200px);
+}
+
+.card-img-top img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top img {
+  transform: scale(1.05);
+}

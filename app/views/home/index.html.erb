@@ -1,0 +1,59 @@
+<div class="wrapper d-flex flex-column flex-row-fluid">
+  <div class="content d-flex flex-column flex-column-fluid pt-10">
+    <div class="container-xxl">
+      <!-- Hero Section -->
+      <div class="card card-flush mb-10">
+        <div class="card-body text-center py-20" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <h1 class="text-white fw-bolder mb-4" style="font-size: 3rem;">Bienvenido a Catálogo Retail</h1>
+          <p class="text-white fs-4 mb-7">Encuentra los mejores productos al mejor precio</p>
+          <%= link_to "Ver todos los productos", products_path, class: "btn btn-lg btn-light" %>
+        </div>
+      </div>
+
+      <!-- Categorías -->
+      <div class="mb-10">
+        <h2 class="fw-bold mb-7">Categorías</h2>
+        <div class="row g-5">
+          <% @categories.each do |category| %>
+            <div class="col-md-6 col-lg-3">
+              <%= link_to products_path(category: category), class: "text-decoration-none" do %>
+                <div class="card card-flush h-100 hover-elevate-up">
+                  <div class="card-body text-center p-9">
+                    <i class="bi bi-tag fs-2x text-primary mb-4"></i>
+                    <h3 class="fw-bold text-gray-800 mb-0"><%= category %></h3>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Productos Destacados -->
+      <% if @featured_products.any? %>
+        <div class="mb-10">
+          <div class="d-flex justify-content-between align-items-center mb-7">
+            <h2 class="fw-bold mb-0">Productos Destacados</h2>
+            <%= link_to "Ver todos", products_path, class: "btn btn-sm btn-light-primary" %>
+          </div>
+          <div class="row g-5 g-xl-8">
+            <%= render partial: "products/product_card", collection: @featured_products, as: :product %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Nuevos Productos -->
+      <% if @new_arrivals.any? %>
+        <div class="mb-10">
+          <div class="d-flex justify-content-between align-items-center mb-7">
+            <h2 class="fw-bold mb-0">Recién Llegados</h2>
+            <%= link_to "Ver todos", products_path(sort_by: 'newest'), class: "btn btn-sm btn-light-primary" %>
+          </div>
+          <div class="row g-5 g-xl-8">
+            <%= render partial: "products/product_card", collection: @new_arrivals, as: :product %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
